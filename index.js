@@ -2,7 +2,7 @@
 
 /* USER VARIABLES */
 
-const vectors = [
+var vectors = [
 	{ score: 100, key: 'callid', suffix: "_b2b-1" },
 	{ score: 100, key: 'correlation_id', name: 'callid' },
 	{ score: 100, key: 'x-cid', name: 'callid' },
@@ -12,6 +12,9 @@ const vectors = [
 	{ score: 50,  key: 'anumber_ext' }
 ];
 
+exports.vectors = function(vec){
+	vectors = vec;
+};
 
 /* DO NOT TOUCH BELOW THIS BELT */
 
