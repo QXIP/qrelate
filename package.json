@@ -1,0 +1,22 @@
+{
+  "name": "qrelate",
+  "version": "1.0.0",
+  "description": "Pipeline Correlation Module for HSP CDRs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QXIP/qrelate.git"
+  },
+  "author": "Lorenzo Mangani <lorenzo.mangani@gmail.com> (http://qxip.net/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/QXIP/qrelate/issues"
+  },
+  "homepage": "https://github.com/QXIP/qrelate#readme",
+  "dependencies": {
+    "record-cache": "^1.0.1"
+  }
+}
