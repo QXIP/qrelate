@@ -19,7 +19,7 @@ const vectors = [
 	{ score: 50,  key: 'ruri_user', regex: /^(00|\+)/ },
 	{ score: 50,  key: 'from_user', regex: /^(00|\+)/ }
 ];
-qrelate.vectors = vectors;
+qrelate.vectors(vectors);
 ```
 
 #### (C) 2018 QXIP BV
