@@ -12,19 +12,25 @@ var vectors = [
 	{ score: 50,  key: 'anumber_ext' }
 ];
 
+var params = { maxSize: 5000, maxAge: 5000 };
+
+/* DO NOT TOUCH BELOW THIS BELT */
+
 exports.vectors = function(vec){
 	vectors = vec;
 };
 
-/* DO NOT TOUCH BELOW THIS BELT */
+exports.params = function(k,v){
+	params[k] = v;
+};
 
 var recordCache = require('record-cache')
 var cache = [];
-cache.uuid = recordCache({ maxSize: 5000, maxAge: 5000 })
+cache.uuid = recordCache(params);
 
 var setCache = function(name,k,v){
   if (!cache[name]) {
-	cache[name] = recordCache({ maxSize: 1024, maxAge: 2000 });
+	cache[name] = recordCache(params);
   }
   cache[name].add(k,v);
 }
