@@ -12,6 +12,7 @@ const vectors = [
 ];
 
 main.vectors(vectors);
+main.params('maxAge', 2000);
 
 /* fake dataset */
 var cdr = [
