@@ -12,7 +12,7 @@ var vectors = [
 	{ score: 50,  key: 'anumber_ext' }
 ];
 
-var params = { maxSize: 5000, maxAge: 5000 };
+var params = { maxSize: 5000, maxAge: 5000, threshold: 99 };
 
 /* DO NOT TOUCH BELOW THIS BELT */
 
@@ -47,6 +47,7 @@ var main = function(obj){
   if (!obj.uuid) return false;
   const uuid = obj.uuid;
   var set = {};
+  var hold;
 
   /* store object by uuid */
   cache.uuid.add(uuid,obj);
@@ -71,6 +72,16 @@ var main = function(obj){
 	 set[item.key] = tmp;
 	 err = setCache(item.key,tmp,uuid);
 	 if (err) console.err(err);
+	 /* save regex match version */
+         if (item.regex_match) {
+		hold = tmp.match(item.regex_match)[0];
+		if (hold) {
+		  tmp = hold;
+		  set[item.key] = tmp;
+		  err = setCache(item.key,tmp,uuid);
+		  if (err) console.err(err);
+		}
+	 }
 	 /* save named version */
          if (item.name) err = setCache(item.name,tmp,uuid);
 
@@ -94,7 +105,7 @@ var correlate = function(obj,set){
 	tmp_uuid.forEach(function(id){
 	  if (!uuids[tmp_uuid]) uuids[tmp_uuid] = item.score;
 	  else uuids[tmp_uuid] = uuids[tmp_uuid] + item.score;
-	  if (uuids[tmp_uuid] > 50 && links.indexOf(id) === -1) links.push(id)
+	  if (uuids[tmp_uuid] > params.threshold && links.indexOf(id) === -1) links.push(id)
         });
       }
     }
