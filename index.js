@@ -7,12 +7,10 @@ var vectors = [
 	{ score: 100, key: 'correlation_id', name: 'callid' },
 	{ score: 100, key: 'x-cid', name: 'callid' },
 	{ score: 50,  key: 'ruri_user', regex: /^(00|\+)/ },
-	{ score: 50,  key: 'from_user', regex: /^(00|\+)/ },
-	{ score: 50,  key: 'bnumber_ext' },
-	{ score: 50,  key: 'anumber_ext' }
+	{ score: 50,  key: 'from_user', regex: /^(00|\+)/ }
 ];
 
-var params = { maxSize: 5000, maxAge: 5000, threshold: 99 };
+var params = { maxSize: 5000, maxAge: 5000, threshold: 99, uuid: 'uuid' };
 
 /* DO NOT TOUCH BELOW THIS BELT */
 
@@ -44,8 +42,8 @@ var main = function(obj){
   if (!obj) return false;
   if (obj.message) obj = obj.message;
 
-  if (!obj.uuid) return false;
-  const uuid = obj.uuid;
+  if (!obj[params.uuid]) return false;
+  const uuid = obj[params.uuid];
   var set = {};
   var hold;
 
@@ -105,23 +103,17 @@ var correlate = function(obj,set){
 	tmp_uuid.forEach(function(id){
 	  if (!uuids[tmp_uuid]) uuids[tmp_uuid] = item.score;
 	  else uuids[tmp_uuid] = uuids[tmp_uuid] + item.score;
-	  if (uuids[tmp_uuid] > params.threshold && links.indexOf(id) === -1) links.push(id)
+	  if (uuids[tmp_uuid] > params.threshold
+		&& links.indexOf(id) === -1
+		&& id != obj.uuid ) links.push(id)
         });
       }
     }
   });
-  /*
-  for(var key in set) {
-    var tmp_uuid = getCache(key,set[key]);
-    if(tmp_uuid) tmp_uuid.forEach(function(id){
-	if (links.indexOf(id) === -1) links.push(id)
-    });
-  };
-  */
-  obj.links = links;
+
+  if (links.length > 0) obj.links = links;
   return obj
 }
 
 exports.correlate = correlate;
 exports.process = main;
-

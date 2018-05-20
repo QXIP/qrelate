@@ -1,6 +1,6 @@
 {
   "name": "qrelate",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Pipeline Correlation Module for HSP CDRs",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/QXIP/qrelate#readme",
   "dependencies": {
-    "record-cache": "^1.0.1"
+    "record-cache": "^1.1.0"
   }
 }

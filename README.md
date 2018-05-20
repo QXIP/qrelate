@@ -1,8 +1,13 @@
 # qrelate
-Pipeline Correlation Module for [paStash](https://github.com/sipcapture/pastash) HSP CDRs
+Short-Term memory pipeline correlation module
 
-## Usage
-Do not use this!
+## About
+This module was designed for [paStash](https://github.com/sipcapture/pastash) In-Line CDR correlation
+
+## Setup
+```
+npm install --save qrelate
+```
 
 ### Functions
 * `key`: Key name to extract value from
@@ -13,7 +18,14 @@ Do not use this!
 * `name`: Store using name
 * `score`: Score to assign for a match
 
-#### Parameters
+### Parameters
+* `maxSize`: max number of items in LRU
+* `maxAge`: max age in ms for items in LRU
+* `treshold`: correlation treshold score
+* `uuid`: correlation identifier key
+
+
+#### Usage
 ```javascript
 const qrelate = require('qrelate');
 
@@ -21,6 +33,7 @@ const qrelate = require('qrelate');
 qrelate.params('maxSize',5000); // max number of items in LRU
 qrelate.params('maxAge',5000); // max age of items in LRU
 qrelate.params('threshold',99); // correlation threshold score
+qrelate.params('uuid','uuid'); // correlation identifier key
 
 // Set Vectors
 const vectors = [
