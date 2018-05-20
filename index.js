@@ -10,11 +10,19 @@ var vectors = [
 	{ score: 50,  key: 'from_user', regex: /^(00|\+)/ }
 ];
 
-var params = { maxSize: 5000, maxAge: 5000, threshold: 99, uuid: 'uuid' };
+var params = { maxSize: 5000, maxAge: 5000, threshold: 100, uuid: 'uuid', onstale: false };
 
 /* DO NOT TOUCH BELOW THIS BELT */
 
+var safe = require('safe-regex');
 exports.vectors = function(vec){
+	vec.forEach(function(rule){
+	  if (rule.regex || rule.regex_match){
+	    if(!safe(rule.regex||rule.regex_match)){
+	      logger.error('WARNING: Unsafe REGEX Rule detected!',rule.regex||rule.regex_match);
+	    }
+	  }
+	});
 	vectors = vec;
 };
 
@@ -105,14 +113,21 @@ var correlate = function(obj,set){
 	  else uuids[tmp_uuid] = uuids[tmp_uuid] + item.score;
 	  if (uuids[tmp_uuid] > params.threshold
 		&& links.indexOf(id) === -1
-		&& id != obj.uuid ) links.push(id)
+		&& id !== obj.uuid
+		) links.push(id)
         });
       }
     }
   });
 
-  if (links.length > 0) obj.links = links;
-  return obj
+  if (links.length > 0) {
+  	//links = links.filter(item => item != obj.uuid)
+	obj.links = links;
+  	return obj
+  } else {
+	obj.links = [];
+  	return obj
+  }
 }
 
 exports.correlate = correlate;

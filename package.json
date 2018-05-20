@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/QXIP/qrelate#readme",
   "dependencies": {
-    "record-cache": "^1.1.0"
+    "record-cache": "^1.1.0",
+    "safe-regex": "^1.1.0"
   }
 }
