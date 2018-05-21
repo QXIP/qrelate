@@ -4,13 +4,13 @@ const main = require('../index.js');
 const vectors = [
 	{ score: 100, key: 'callid', suffix: "_b2b-1" },
 	{ score: 100, key: 'correlation_id', name: 'callid' },
-	{ score: 100, key: 'x-cid', name: 'callid' },
+	{ score: 100, key: 'x-cid', name: 'callid', inject: false },
 	{ score: 50, key: 'to_user', name: "to_user_last8", regex_match: /.{8}$/ },
 	{ score: 50, key: 'from_user', name: "from_user_last8", regex_match: /.{8}$/ }
 ];
 
 main.vectors(vectors);
-main.params('maxAge', 2000);
+main.params('maxAge', 3000);
 
 /* fake dataset */
 var cdr = [

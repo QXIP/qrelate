@@ -16,6 +16,7 @@ var params = { maxSize: 5000, maxAge: 5000, threshold: 100, uuid: 'uuid', onstal
 
 var safe = require('safe-regex');
 exports.vectors = function(vec){
+	// Validate vectors
 	vec.forEach(function(rule){
 	  if (rule.regex || rule.regex_match){
 	    if(!safe(rule.regex||rule.regex_match)){
@@ -36,6 +37,7 @@ cache.uuid = recordCache(params);
 
 var setCache = function(name,k,v){
   if (!cache[name]) {
+	// Create independent cache
 	cache[name] = recordCache(params);
   }
   cache[name].add(k,v);
@@ -130,7 +132,11 @@ var correlate = function(obj,set){
 	obj.links = links;
 	obj.links.forEach(function(link){
 	  var tmp = getCache('inject',link);
-	  if (tmp && tmp[0]) obj[tmp[0].key] = tmp[0].value;
+	  if (tmp && tmp[0]) {
+		obj[tmp[0].key] = tmp[0].value;
+	  	err = setCache('inject', obj.uuid, { "key": tmp[0].key, "value": tmp[0].value });
+	  	if (err) console.err(err);
+	  }
  	})
   	return obj
   } else {
