@@ -1,19 +1,16 @@
-const main = require('./index.js');
+const main = require('../index.js');
 
 /* vectors */
 const vectors = [
 	{ score: 100, key: 'callid', suffix: "_b2b-1" },
 	{ score: 100, key: 'correlation_id', name: 'callid' },
-	{ score: 100, key: 'x-cid', name: 'callid' },
+	{ score: 100, key: 'x-cid', name: 'callid', inject: 'x-cid' },
 	{ score: 50,  key: 'ruri_user', regex: /^(00|\+)/ },
-	{ score: 50,  key: 'from_user', regex: /^(00|\+)/ },
-	{ score: 50,  key: 'bnumber_ext' },
-	{ score: 50,  key: 'anumber_ext' }
+	{ score: 50,  key: 'from_user', regex: /^(00|\+)/ }
 ];
 
 main.vectors(vectors);
-var onstale = function(data){console.log(data)};
-//main.params('onstale', onstale);
+main.params('maxAge', 2000);
 
 /* fake dataset */
 var cdr = [
@@ -27,13 +24,15 @@ setTimeout(function(){
 	console.log('Expect 1 link');
 	main.process(cdr[0]);
 	console.log( cdr[1].message.uuid, main.process(cdr[1]).links );
+	console.log(cdr[1]);
 }, 1000);
 
 // expire cache, no correlation match
 setTimeout(function(){
   	console.log('Expect 0 links');
-	main.process(cdr[3]);
+	//main.process(cdr[3]);
   	console.log(cdr[1].message.uuid, main.process(cdr[1]).links)
+	//console.log(cdr[1]);
 }, 5000);
 
 

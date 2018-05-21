@@ -5,7 +5,7 @@
 var vectors = [
 	{ score: 100, key: 'callid', suffix: "_b2b-1" },
 	{ score: 100, key: 'correlation_id', name: 'callid' },
-	{ score: 100, key: 'x-cid', name: 'callid' },
+	{ score: 100, key: 'x-cid', name: 'callid', inject: true },
 	{ score: 50,  key: 'ruri_user', regex: /^(00|\+)/ },
 	{ score: 50,  key: 'from_user', regex: /^(00|\+)/ }
 ];
@@ -88,6 +88,11 @@ var main = function(obj){
 		  if (err) console.err(err);
 		}
 	 }
+	 /* save injectable version */
+         if (item.inject && obj[item.inject]) {
+		  err = setCache('inject', uuid, { "key": item.inject, "value": obj[item.inject] });
+		  if (err) console.err(err);
+	 }
 	 /* save named version */
          if (item.name) err = setCache(item.name,tmp,uuid);
 
@@ -123,6 +128,10 @@ var correlate = function(obj,set){
   if (links.length > 0) {
   	//links = links.filter(item => item != obj.uuid)
 	obj.links = links;
+	obj.links.forEach(function(link){
+	  var tmp = getCache('inject',link);
+	  if (tmp && tmp[0]) obj[tmp[0].key] = tmp[0].value;
+ 	})
   	return obj
   } else {
 	obj.links = [];

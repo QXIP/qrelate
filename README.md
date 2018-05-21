@@ -16,6 +16,7 @@ npm install --save qrelate
 * `regex`: Replace using regex
 * `regex_match`: Match using regex
 * `name`: Store using name
+* `inject`: Inject header on correlation
 * `score`: Score to assign for a match
 
 ### Parameters
@@ -38,7 +39,7 @@ qrelate.params('uuid','uuid'); // correlation identifier key
 // Set Vectors
 const vectors = [
 	{ score: 100, key: 'callid', suffix: "_b2b-1" },
-	{ score: 100, key: 'correlation_id', name: 'callid' },
+	{ score: 100, key: 'correlation_id', name: 'callid', inject: 'x-cid' },
 	{ score: 50,  key: 'ruri_user', regex: /^(00|\+)/ },
 	{ score: 50,  key: 'from_user', regex: /^(00|\+)/ }
 	{ score: 50,  key: 'to_user', name: "last8dig", regex_match: /.{8}$/ }
